@@ -1,0 +1,186 @@
+\documentclass[a4paper, $if(fontsize)$$fontsize$,$endif$]{$documentclass$}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+
+\usepackage{fullpage}
+\usepackage{parskip}
+
+%% Fonts
+\usepackage[no-math]{fontspec}
+\usepackage[none]{hyphenat}
+%\defaultfontfeatures{Mapping = tex-text, Scale = MatchLowercase}
+\setmainfont{Arial}
+\setsansfont{Arial}
+\setmonofont{Source Code Pro}
+
+%% Set Sans font in headings
+\usepackage{sectsty}
+\allsectionsfont{\sffamily}
+
+%% Start sections from new page
+\let\stdsection\section
+\renewcommand\section{\newpage\stdsection}
+\renewcommand\rule[2]{\newpage}
+
+% Images
+
+\usepackage{graphicx}
+
+% Colors
+
+\usepackage{xcolor}
+
+\definecolor{darkviolet}{rgb}{0.5,0,0.4}
+\definecolor{darkgreen}{rgb}{0,0.4,0.2} 
+\definecolor{darkblue}{rgb}{0.1,0.1,0.9}
+\definecolor{darkgrey}{rgb}{0.5,0.5,0.5}
+\definecolor{lightblue}{rgb}{0.4,0.4,1}
+
+% Listings
+
+$if(listings)$
+\usepackage{listings}
+\usepackage{lsteclipse}
+
+\makeatletter
+\lst@AddToHook{TextStyle}{\let\lst@basicstyle\ttfamily\normalsize\fontfamily{pcr}\selectfont}
+\makeatother
+
+\definecolor{Aluminium1}{HTML}{EEEEEC}
+
+\lstset{
+  language=Java,
+  style=eclipse,
+  backgroundcolor = \color{Aluminium1},
+  numbers=none,
+  frame=single
+}
+
+\lstset{
+  language=Python,
+  style=eclipse,
+  backgroundcolor = \color{Aluminium1},
+  numbers=none,
+  frame=single
+}
+
+$endif$
+
+\ifxetex
+  \usepackage{fontspec,xltxtra,xunicode}
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+\else
+  \ifluatex
+    \usepackage{fontspec}
+    \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \else
+    \usepackage[utf8]{inputenc}
+  \fi
+\fi
+
+$if(verbatim-in-note)$
+\usepackage{fancyvrb}
+$endif$
+$if(fancy-enums)$
+% Redefine labelwidth for lists; otherwise, the enumerate package will cause
+% markers to extend beyond the left margin.
+\makeatletter\AtBeginDocument{%
+  \renewcommand{\@listi}
+    {\setlength{\labelwidth}{4em}}
+}\makeatother
+\usepackage{enumerate}
+$endif$
+$if(tables)$
+\usepackage{ctable}
+\usepackage{float} % provides the H option for float placement
+$endif$
+$if(url)$
+\usepackage{url}
+$endif$
+$if(graphics)$
+\usepackage{graphicx}
+% We will generate all images so they have a width \maxwidth. This means
+% that they will get their normal width if they fit onto the page, but
+% are scaled down if they would overflow the margins.
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+\else\Gin@nat@width\fi}
+\makeatother
+\let\Oldincludegraphics\includegraphics
+\renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=\maxwidth]{#1}}
+$endif$
+
+$if(graphics-path)$
+\graphicspath{{$graphics-path$}}
+$endif$
+
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex,
+              colorlinks=false,
+              linkcolor=black]{hyperref}
+\else
+  \usepackage[unicode=true,
+              colorlinks=false,
+              linkcolor=black]{hyperref}
+\fi
+\hypersetup{breaklinks=true, pdfborder={0 0 0}}
+$if(strikeout)$
+\usepackage[normalem]{ulem}
+% avoid problems with \sout in headers with hyperref:
+\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
+$endif$
+$if(subscript)$
+\newcommand{\textsubscr}[1]{\ensuremath{_{\scriptsize\textrm{#1}}}}
+$endif$
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+$if(numbersections)$
+$else$
+\setcounter{secnumdepth}{0}
+$endif$
+$if(verbatim-in-note)$
+\VerbatimFootnotes % allows verbatim text in footnotes
+$endif$
+
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+$if(title)$
+\title{$title$}
+$endif$
+$if(author)$
+\author{$author$ \\
+$if(email)${\tt $email$}$endif$}
+$endif$
+$if(date)$
+\date{$date$}
+$endif$
+
+\begin{document}
+$if(title)$
+\maketitle
+$endif$
+
+$for(include-before)$
+$include-before$
+
+$endfor$
+
+$if(toc)$
+\tableofcontents
+
+$endif$
+
+\newpage
+
+$body$
+
+$for(include-after)$
+$include-after$
+
+$endfor$
+\end{document}
