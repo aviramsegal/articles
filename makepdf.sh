@@ -23,4 +23,5 @@ pandoc \
     --variable "title=${TITLE}" \
     --variable "author=${AUTHOR}" \
     --variable "email=${EMAIL}" \
+    --variable "date=${DATE}" \
     -o ${BASENOEXT}.pdf
